@@ -4,6 +4,7 @@ import edu.mum.cs.cs525.labs.skeleton.Account;
 import edu.mum.cs.cs525.labs.skeleton.repository.AccountDAO;
 import edu.mum.cs.cs525.labs.skeleton.repository.AccountDAOImpl;
 import edu.mum.cs.cs525.labs.skeleton.entity.Customer;
+import edu.mum.cs.cs525.labs.skeleton.strategyPattern.AccountTypeStrategy;
 
 import java.util.Collection;
 
@@ -14,8 +15,8 @@ public class AccountServiceImpl implements AccountService {
 		accountDAO = new AccountDAOImpl();
 	}
 
-	public Account createAccount(String accountNumber, String customerName) {
-		Account account = new Account(accountNumber);
+	public Account createAccount(String accountNumber, String customerName, AccountTypeStrategy accountTypeStrategy) {
+		Account account = new Account(accountNumber, accountTypeStrategy);
 		Customer customer = new Customer(customerName);
 		account.setCustomer(customer);
 		
@@ -54,5 +55,13 @@ public class AccountServiceImpl implements AccountService {
 		fromAccount.transferFunds(toAccount, amount, description);
 		accountDAO.updateAccount(fromAccount);
 		accountDAO.updateAccount(toAccount);
+	}
+
+	@Override
+	public void addInterest() {
+		Collection<Account> accounts = getAllAccounts();
+		for (Account account : accounts) {
+			account.deposit(account.calculateInterest(account.getBalance()));
+		}
 	}
 }

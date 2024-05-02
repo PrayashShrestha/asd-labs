@@ -1,17 +1,28 @@
 package edu.mum.cs.cs525.labs.skeleton;
 
+import edu.mum.cs.cs525.labs.skeleton.decoratorPattern.P1Decorator;
+import edu.mum.cs.cs525.labs.skeleton.decoratorPattern.P2Decorator;
+import edu.mum.cs.cs525.labs.skeleton.decoratorPattern.P3Decorator;
 import edu.mum.cs.cs525.labs.skeleton.entity.AccountEntry;
 import edu.mum.cs.cs525.labs.skeleton.entity.Customer;
 import edu.mum.cs.cs525.labs.skeleton.service.AccountService;
 import edu.mum.cs.cs525.labs.skeleton.service.AccountServiceImpl;
+import edu.mum.cs.cs525.labs.skeleton.strategyPattern.AccountTypeStrategy;
+import edu.mum.cs.cs525.labs.skeleton.strategyPattern.CheckingAccountStrategy;
+import edu.mum.cs.cs525.labs.skeleton.strategyPattern.SavingAccountStrategy;
 
 public class Application {
 	public static void main(String[] args) {
 		AccountService accountService = new AccountServiceImpl();
 
+		AccountTypeStrategy strategy = new SavingAccountStrategy();
+		strategy = new P1Decorator(strategy);
+		strategy = new P2Decorator(strategy);
+		strategy = new P3Decorator(strategy);
+
 		// create 2 accounts;
-		accountService.createAccount("1263862", "Frank Brown");
-		accountService.createAccount("4253892", "John Doe");
+		accountService.createAccount("1263862", "Frank Brown", strategy);
+		accountService.createAccount("4253892", "John Doe", strategy);
 		// use account 1;
 		accountService.deposit("1263862", 240);
 		accountService.deposit("1263862", 529);
@@ -21,6 +32,7 @@ public class Application {
 		accountService.transferFunds("4253892", "1263862", 100, "payment of invoice 10232");
 		// show balances
 
+		accountService.addInterest();
 		for (Account account : accountService.getAllAccounts()) {
 			Customer customer = account.getCustomer();
 			System.out.println("Statement for Account: " + account.getAccountNumber());

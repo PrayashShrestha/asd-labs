@@ -2,6 +2,7 @@ package edu.mum.cs.cs525.labs.skeleton;
 
 import edu.mum.cs.cs525.labs.skeleton.entity.AccountEntry;
 import edu.mum.cs.cs525.labs.skeleton.entity.Customer;
+import edu.mum.cs.cs525.labs.skeleton.strategyPattern.AccountTypeStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,11 +12,13 @@ public class Account {
 	private Customer customer;
 
 	private String accountNumber;
+	private AccountTypeStrategy accountTypeStrategy;
 
 	private List<AccountEntry> entryList = new ArrayList<AccountEntry>();
 
-	public Account(String accountNumber) {
+	public Account(String accountNumber, AccountTypeStrategy accountTypeStrategy) {
 		this.accountNumber = accountNumber;
+		this.accountTypeStrategy = accountTypeStrategy;
 	}
 
 	public String getAccountNumber() {
@@ -69,6 +72,11 @@ public class Account {
 
 	public Collection<AccountEntry> getEntryList() {
 		return entryList;
+	}
+
+	public Double calculateInterest(Double amount){
+		return accountTypeStrategy.calculateInterest(amount);
+
 	}
 
 }
