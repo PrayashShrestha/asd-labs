@@ -15,14 +15,19 @@ public class Application {
 	public static void main(String[] args) {
 		AccountService accountService = new AccountServiceImpl();
 
-		AccountTypeStrategy strategy = new SavingAccountStrategy();
-		strategy = new P1Decorator(strategy);
-		strategy = new P2Decorator(strategy);
-		strategy = new P3Decorator(strategy);
+		AccountTypeStrategy savingAccountStrategytrategy = new SavingAccountStrategy();
+		savingAccountStrategytrategy = new P1Decorator(savingAccountStrategytrategy);
+		savingAccountStrategytrategy = new P2Decorator(savingAccountStrategytrategy);
+		savingAccountStrategytrategy = new P3Decorator(savingAccountStrategytrategy);
+
+		AccountTypeStrategy checkingAccountStrategytrategy = new CheckingAccountStrategy();
+		checkingAccountStrategytrategy = new P1Decorator(checkingAccountStrategytrategy);
+		checkingAccountStrategytrategy = new P2Decorator(checkingAccountStrategytrategy);
+		checkingAccountStrategytrategy = new P3Decorator(checkingAccountStrategytrategy);
 
 		// create 2 accounts;
-		accountService.createAccount("1263862", "Frank Brown", strategy);
-		accountService.createAccount("4253892", "John Doe", strategy);
+		accountService.createAccount("1263862", "Frank Brown", savingAccountStrategytrategy);
+		accountService.createAccount("4253892", "John Doe", checkingAccountStrategytrategy);
 		// use account 1;
 		accountService.deposit("1263862", 240);
 		accountService.deposit("1263862", 529);
