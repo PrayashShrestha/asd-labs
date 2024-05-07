@@ -1,5 +1,8 @@
 package edu.mum.cs.cs525.labs.skeleton;
 
+import edu.mum.cs.cs525.labs.skeleton.command.Command;
+import edu.mum.cs.cs525.labs.skeleton.command.DepositCommand;
+import edu.mum.cs.cs525.labs.skeleton.command.TransferCommand;
 import edu.mum.cs.cs525.labs.skeleton.entity.AccountEntry;
 import edu.mum.cs.cs525.labs.skeleton.entity.Customer;
 import edu.mum.cs.cs525.labs.skeleton.service.AccountService;
@@ -13,12 +16,22 @@ public class Application {
 		accountService.createAccount("1263862", "Frank Brown");
 		accountService.createAccount("4253892", "John Doe");
 		// use account 1;
-		accountService.deposit("1263862", 240);
-		accountService.deposit("1263862", 529);
-		accountService.withdraw("1263862", 230);
+//		accountService.deposit("1263862", 240);
+		Command deposit = new DepositCommand(accountService,"1263862", 240);
+		deposit.execute();
+		deposit = new DepositCommand(accountService,"1263862", 529);
+		deposit.execute();
+		deposit = new DepositCommand(accountService,"1263862", 230);
+		deposit.execute();
+
 		// use account 2;
 		accountService.deposit("4253892", 12450);
-		accountService.transferFunds("4253892", "1263862", 100, "payment of invoice 10232");
+		deposit = new DepositCommand(accountService,"4253892", 12450);
+		deposit.execute();
+
+		Command transferFund = new TransferCommand(accountService, "4253892", "1263862", 100, "payment of invoice 10232");
+		transferFund.execute();
+		transferFund.undo();
 		// show balances
 
 		for (Account account : accountService.getAllAccounts()) {

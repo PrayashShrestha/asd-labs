@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public class AccountServiceImpl implements AccountService {
 	private AccountDAO accountDAO;
-	
+
 	public AccountServiceImpl(){
 		accountDAO = new AccountDAOImpl();
 	}
@@ -18,16 +18,16 @@ public class AccountServiceImpl implements AccountService {
 		Account account = new Account(accountNumber);
 		Customer customer = new Customer(customerName);
 		account.setCustomer(customer);
-		
+
 		accountDAO.saveAccount(account);
-		
+
 		return account;
 	}
 
 	public void deposit(String accountNumber, double amount) {
 		Account account = accountDAO.loadAccount(accountNumber);
 		account.deposit(amount);
-		
+
 		accountDAO.updateAccount(account);
 	}
 
