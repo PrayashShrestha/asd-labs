@@ -1,0 +1,18 @@
+package edu.mum.cs.cs525.labs.dynamicProxy;
+
+public class RealImage implements Image{
+    private String fileName;
+
+    public RealImage(String fileName) {
+        this.fileName = fileName;
+        loadFromDisk(fileName);
+    }
+    @Override
+    public void display() {
+        System.out.println("Displaying " + fileName);
+    }
+
+    public void loadFromDisk(String fileName) {
+        System.out.println("Loading from disk: "+fileName);
+    }
+}
